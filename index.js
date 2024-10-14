@@ -1,14 +1,24 @@
 const express = require('express');
 const cors = require('cors');
+const bodyParser = require('body-parser');
+const authRoutes = require('./routes/authRoutes');
+require('dotenv').config();
 
 const app = express();
-const port = 3000;
-
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
-app.use(express.json()); 
+app.use(bodyParser.json()); 
+app.use(express.json());
+
+
+app.use('/api/auth', authRoutes);
 
 let tasks = [];
+
+app.get('/', (req, res) => {
+  res.json("¡Bienvenido!");
+});
 
 app.get('/tasks', (req, res) => {
   res.json(tasks);
@@ -19,7 +29,7 @@ app.post('/tasks', (req, res) => {
   if (task) {
     const newTask = { id: tasks.length + 1, task: task };
     tasks.push(newTask);
-    res.status(201).json(newTask); 
+    res.status(201).json(newTask);
   } else {
     res.status(400).json({ error: 'La tarea es requerida' });
   }
@@ -52,6 +62,7 @@ app.delete('/tasks/:id', (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Servidor corriendo en http://127.0.0.1:${port}`);
+
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en http://127.0.0.1:${PORT}`);
 });
