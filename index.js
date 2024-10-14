@@ -5,7 +5,7 @@ const authRoutes = require('./routes/authRoutes');
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 
 app.use(cors());
 app.use(bodyParser.json()); 
@@ -63,6 +63,6 @@ app.delete('/tasks/:id', (req, res) => {
 });
 
 
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://127.0.0.1:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Servidor corriendo en http://0.0.0.0:${PORT}`);
 });
